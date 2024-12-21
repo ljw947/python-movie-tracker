@@ -17,6 +17,7 @@ GOOD_JSON = """
 ]
 """
 
+
 class MockRequests():
     """Create a mock requests object."""
     def __init__(self, json_return_type: str = None, status_code: int = 200):
