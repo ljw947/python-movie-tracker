@@ -21,7 +21,11 @@ def main():
     with open("cinemas.json") as cinema_list:
         cinemas = json.load(cinema_list)
 
-    movies = movie_tracker.get_movies(cinemas["palace"]["movies"])
+    locations = movie_tracker.get_locations(cinemas["palace"]["url"] + cinemas["palace"]["locations"])
+
+    print(locations)
+
+    movies = movie_tracker.get_movies(cinemas["palace"]["url"] + cinemas["palace"]["movies"] + "locality=brisbane")
 
     if len(movies) == 0:
         logging.error("No movies found.")
@@ -29,9 +33,13 @@ def main():
 
     print(movies)
 
-    sessions = movie_tracker.get_sessions(cinemas["palace"]["sessions"], "2024-12-21")
+    todays_date = "2024-12-22"
+    sessions = movie_tracker.get_sessions(cinemas["palace"]["url"] + cinemas["palace"]["sessions"], todays_date)
 
-    print(sessions)
+    for session in sessions.values():
+        for timeslot in session["sessions"]:
+            if todays_date in timeslot:
+                print(f"{session['title']} {timeslot}")
 
 
 if __name__ == "__main__":

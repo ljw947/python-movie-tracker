@@ -1,6 +1,8 @@
 {
     "palace": {
-        "movies": "https://prod-api.palace-cinemas.workers.dev/movies?locality=brisbane",
-        "sessions": "https://prod-api.palace-cinemas.workers.dev/sessions?"
+        "url": "https://prod-api.palace-cinemas.workers.dev/",
+        "movies": "movies?",
+        "sessions": "sessions?",
+        "locations": "cinemas?"
     }
 }

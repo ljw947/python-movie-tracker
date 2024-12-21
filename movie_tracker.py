@@ -39,12 +39,14 @@ def get_movies(movie_list_api_endpoint: str) -> dict[str: str, str]:
     Args:
         movie_list_api_endpoint (str): URL of cinema's web API to get list of movies from.
 
-    Return:
+    Returns:
         dict[str, str] with movieId as key; movieId and title as values.
     """
-    movies = get_json_response(movie_list_api_endpoint)
+    movies = {}
 
-    for movie in movies:
+    query_response = get_json_response(movie_list_api_endpoint)
+
+    for movie in query_response:
         try:
             movies[movie["movieId"]] = {"movieId": movie["movieId"], "title": movie["title"]}
         except KeyError as ex:
@@ -64,8 +66,8 @@ def get_sessions(session_list_api_endpoint: str, date: str) -> dict[str: str, st
     Args:
         session_list_api_endpoint (str): URL of cinema's web API to get list of sessions from.
         date (str): Date to query web API for sessions.
-    
-    Return
+
+    Returns:
         dict[str: str, str, list[str]] with movieId as key; movieId, title and list of sessions times as values.
     """
 
@@ -86,12 +88,46 @@ def get_sessions(session_list_api_endpoint: str, date: str) -> dict[str: str, st
 
     sessions = {}
 
-    initial_session = get_json_response(session_list_api_endpoint + f"selectedDates={date}" + "&selectedCinemaIds=121" + "&page=1")
+    initial_session = get_json_response(
+        session_list_api_endpoint + f"selectedDates={date}" + "&selectedCinemaIds=121" + "&page=1")
 
     update_sessions(sessions, initial_session)
 
     # we already have page 1
     for page_number in range(2, initial_session["totalPages"]):
-        update_sessions(sessions, get_json_response(session_list_api_endpoint + f"selectedDates={date}" + "&selectedCinemaIds=121" + f"&page={page_number}"))
+        update_sessions(sessions, get_json_response(
+                session_list_api_endpoint
+                + f"selectedDates={date}"
+                + "&selectedCinemaIds=121"
+                + f"&page={page_number}"
+        ))
 
     return sessions
+
+
+def get_locations(locations_api_endpoint: str) -> dict[str: str, str, str, str]:
+    """
+    Get all locations for a given company.
+
+    Args:
+        locations_api_endpoint (str): URL of cinema's web API to get list of locations from.
+
+    Returns:
+        dict[str: str, str, str, str] with cinemaId as key;
+            cinemaId, cinema name (title), locality (parent city) and suburb (city) as values.
+    """
+    locations = {}
+
+    query_response = get_json_response(locations_api_endpoint)
+
+    for location in query_response:
+        locations.update({
+            location["cinemaId"]: {
+                "cinemaId": location["cinemaId"],
+                "title": location["title"],
+                "locality": location["locality"],
+                "city": location["city"]
+            }
+        })
+
+    return locations

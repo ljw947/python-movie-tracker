@@ -10,12 +10,16 @@ import logging
 
 import movie_tracker
 
-GOOD_JSON = """
+
+# Note: Palace API returns a list of objects for the movie list endpoint.
+FAKE_RESPONSE = """
 [
     {"movieId": "abc123", "title": "My Fake Title"},
     {"movieId": "123abc", "title": "My Fake Movie"}
 ]
 """
+
+GOOD_RESPONSE = {'abc123': {'movieId': 'abc123', 'title': 'My Fake Title'}, '123abc': {'movieId': '123abc', 'title': 'My Fake Movie'}}
 
 class MockRequests():
     """Create a mock requests object."""
@@ -34,7 +38,7 @@ class MockRequests():
         elif self.json_return_type == "bad-json-key":
             return '''{"bad_key": {"bad_response": "bad_value"}}'''
         else:
-            return json.loads(GOOD_JSON)
+            return json.loads(FAKE_RESPONSE)
 
 
 class TestGetMovies:
@@ -81,5 +85,4 @@ class TestGetMovies:
 
         monkeypatch.setattr(requests, "get", mock_get)
         result = movie_tracker.get_movies("")
-        print(result)
-        assert result[0] == {'movieId': 'abc123', 'title': 'My Fake Title'}
+        assert result == GOOD_RESPONSE
