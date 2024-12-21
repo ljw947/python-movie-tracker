@@ -93,7 +93,6 @@ def get_sessions(session_list_api_endpoint: str, date: str) -> dict[str: str, st
 
     # we already have page 1
     for page_number in range(2, initial_session["totalPages"]):
-        update_sessions(sessions, get_json_response(
-            session_list_api_endpoint + f"selectedDates={date}" + "&selectedCinemaIds=121" + f"&page={page_number}"))
+        update_sessions(sessions, get_json_response(session_list_api_endpoint + f"selectedDates={date}" + "&selectedCinemaIds=121" + f"&page={page_number}"))
 
     return sessions
