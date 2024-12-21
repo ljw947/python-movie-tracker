@@ -6,7 +6,7 @@ Contains logic for tracking movies and sessions.
 import logging
 import json
 
-import requester
+import src.movie_tracker.requester as requester
 
 
 def get_json_response(endpoint: str) -> dict:
