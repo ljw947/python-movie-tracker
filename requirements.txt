@@ -1,2 +1,5 @@
-# Requirements for Python Movie Tracker
+# Modules for operation
+requests
+# Testing / linting
 pytest
+flake8

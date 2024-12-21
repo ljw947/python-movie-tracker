@@ -8,7 +8,7 @@ import requests
 import json
 import logging
 
-import movie_tracker
+from movie_tracker import movie_tracker
 
 GOOD_JSON = """
 [
@@ -16,6 +16,7 @@ GOOD_JSON = """
     {"movieId": "123abc", "title": "My Fake Movie"}
 ]
 """
+
 
 class MockRequests():
     """Create a mock requests object."""

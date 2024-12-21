@@ -9,7 +9,7 @@ import json
 import logging
 import sys
 
-import movie_tracker
+import src.movie_tracker.movie_tracker as movie_tracker
 
 
 def main():

@@ -6,7 +6,7 @@ Contains logic for tracking movies and sessions.
 import logging
 import json
 
-import requester
+import src.movie_tracker.requester as requester
 
 
 def get_json_response(endpoint: str) -> dict:
@@ -64,7 +64,7 @@ def get_sessions(session_list_api_endpoint: str, date: str) -> dict[str: str, st
     Args:
         session_list_api_endpoint (str): URL of cinema's web API to get list of sessions from.
         date (str): Date to query web API for sessions.
-    
+
     Return
         dict[str: str, str, list[str]] with movieId as key; movieId, title and list of sessions times as values.
     """
@@ -86,7 +86,8 @@ def get_sessions(session_list_api_endpoint: str, date: str) -> dict[str: str, st
 
     sessions = {}
 
-    initial_session = get_json_response(session_list_api_endpoint + f"selectedDates={date}" + "&selectedCinemaIds=121" + "&page=1")
+    initial_session = get_json_response(
+        session_list_api_endpoint + f"selectedDates={date}" + "&selectedCinemaIds=121" + "&page=1")
 
     update_sessions(sessions, initial_session)
 
