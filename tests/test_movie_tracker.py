@@ -8,7 +8,7 @@ import requests
 import json
 import logging
 
-from movie_tracker import movie_tracker
+from src.movie_tracker import movie_tracker
 
 GOOD_JSON = """
 [
